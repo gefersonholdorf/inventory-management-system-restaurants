@@ -6,13 +6,13 @@ export interface DishesProps {
     price : number
 }
 
-export class DishesEntity {
+export class DisheEntity {
     private constructor(private props : DishesProps) {
         this.validation()
     }
 
     public static build(name : string, price : number) {
-        return new DishesEntity({
+        return new DisheEntity({
             id: crypto.randomUUID(),
             name,
             price
@@ -20,7 +20,7 @@ export class DishesEntity {
     }
     
     public static with(props : DishesProps) {
-        return new DishesEntity(props)
+        return new DisheEntity(props)
     }
 
     public get id() {
