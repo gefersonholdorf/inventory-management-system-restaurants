@@ -25,10 +25,10 @@ export class CreateIngredientService implements UseCase<CreateIngredientInputDto
 
         await this.ingredientGateway.create(ingredient)
 
-        return await this.present(ingredient)
+        return await this.presentOutput(ingredient)
     }
 
-    private present(input : IngredientEntity) : CreateIngredientOutputDto {
+    private presentOutput(input : IngredientEntity) : CreateIngredientOutputDto {
         const output : CreateIngredientOutputDto = {
             id: input.id
         }
