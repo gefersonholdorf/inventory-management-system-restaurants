@@ -22,3 +22,10 @@ model Ingredient {
     minQuantity Int
     isEssential Boolean
 }
+
+model Dishe {
+  @@map("dishes")
+  id String @id
+  name String
+  price Decimal
+}
