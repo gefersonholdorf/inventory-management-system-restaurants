@@ -21,6 +21,7 @@ model Ingredient {
     quantity Int
     minQuantity Int
     isEssential Boolean
+    dishIngredients DisheIngredients[]
 }
 
 model Dishe {
@@ -28,4 +29,16 @@ model Dishe {
   id String @id
   name String
   price Decimal
+  dishIngredients DisheIngredients[]
+}
+
+model DisheIngredients {
+  @@map("dish_ingredients")
+  id String @id
+  dishId String
+  ingredientId String
+  quantityNeeded Int
+
+  dishe Dishe @relation(fields: [dishId], references: [id])
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
 }
