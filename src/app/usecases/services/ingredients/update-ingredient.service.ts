@@ -19,6 +19,10 @@ export class UpdateIngredientService implements UseCase<UpdateIngredientInputDto
 
     private constructor(private readonly ingredientGateway : IngredientGateway) {}
 
+    public static build(ingredientGateway : IngredientGateway) {
+        return new UpdateIngredientService(ingredientGateway)
+    }
+
     public async execute(input: UpdateIngredientInputDto): Promise<UpdateIngredientOutputDto> {
 
         const ingredient = await this.ingredientGateway.findById(input.id) 
@@ -28,7 +32,6 @@ export class UpdateIngredientService implements UseCase<UpdateIngredientInputDto
         }
 
         const ingredientPartial : Partial<IngredientEntity> = {
-            id : input.id,
             name : input.name,
             unit : input.unit,
             quantity : input.quantity,

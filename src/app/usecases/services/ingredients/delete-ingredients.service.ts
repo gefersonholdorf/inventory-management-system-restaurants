@@ -11,6 +11,11 @@ export interface DeteleIngredientOutputDto extends DeleteIngredientInputDto {}
 export class DeleteIngredientService implements UseCase<DeleteIngredientInputDto, DeteleIngredientOutputDto> {
     
     private constructor(private readonly ingredientGateway : IngredientGateway) {}
+
+    public static build(ingredientGateway : IngredientGateway) {
+        return new DeleteIngredientService(ingredientGateway)
+    }
+
     
     public async execute(input: DeleteIngredientInputDto): Promise<DeteleIngredientOutputDto> {
         const ingredient = await this.ingredientGateway.findById(input.id)

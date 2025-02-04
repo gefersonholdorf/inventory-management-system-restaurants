@@ -24,8 +24,6 @@ export class IngredientRepository implements IngredientGateway {
             await this.prismaClient.ingredient.create({
                 data: {
                     ...newIngredient,
-                    min_quantity: newIngredient.minQuantity,
-                    is_essential: newIngredient.isEssential
                 }
             })
         } catch (error) {
@@ -37,16 +35,10 @@ export class IngredientRepository implements IngredientGateway {
         try {
             const ingredients = await this.prismaClient.ingredient.findMany()
 
-            if (!ingredients) {
-                throw new Error('Nenhum ingrediente encontrado!')
-            }
-
             return ingredients.map((ingredient) => {
                 return IngredientEntity.with({
                     ...ingredient,
                     unit: ingredient.unit as UnitTypes,
-                    minQuantity: ingredient.min_quantity,
-                    isEssential: ingredient.is_essential
                 })
             })
 
@@ -55,14 +47,48 @@ export class IngredientRepository implements IngredientGateway {
         }
     }
     
-    findById(id: string): Promise<IngredientEntity> {
-        throw new Error("Method not implemented.");
+    public async findById(id: string): Promise<IngredientEntity>{
+        try {
+            const ingredient =  await this.prismaClient.ingredient.findFirst({
+                where: {
+                    id
+                }
+            })
+
+            return IngredientEntity.with({
+                ...ingredient!,
+                unit: ingredient!.unit as UnitTypes,
+            })
+
+        } catch (error) {
+            throw new Error('Erro ao listar o Ingrediente!')
+        }
     }
-    update(id: string, partialIngredient: Partial<IngredientEntity>): Promise<void> {
-        throw new Error("Method not implemented.");
+
+    public async update(id: string, partialIngredient: Partial<IngredientEntity>): Promise<void> {
+        try {
+            await this.prismaClient.ingredient.update({
+                where: {
+                    id
+                }, data: {
+                    ...partialIngredient
+                }
+            }) 
+        } catch (error) {
+            throw new Error('Erro ao atualizar Ingrediente!')
+        }
     }
-    delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+
+    public async delete(id: string): Promise<void> {
+        try {
+            await this.prismaClient.ingredient.delete({
+                where: {
+                    id
+                }
+            })
+        } catch (error) {
+            throw new Error('Erro ao deletar Ingrediente!')
+        }
     }
 
 }

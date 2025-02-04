@@ -19,6 +19,6 @@ model Ingredient {
     name String
     unit String
     quantity Int
-    min_quantity Int
-    is_essential Boolean
+    minQuantity Int
+    isEssential Boolean
 }
